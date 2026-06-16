@@ -3,7 +3,7 @@
 > AI-powered web vulnerability scanner covering all **10/10 OWASP Top 10:2021** categories with CNN-LSTM deep learning classification.
 
 Diploma project — 6B06301 Cybersecurity, Astana IT University, 2025  
-**Authors:** Assima Zheniskyzy · Yelnara Amanbek  
+**Authors:** Assima Zheniskyzy  
 **Supervisor:** Alua Tanirbergenova, PhD
 
 ---
