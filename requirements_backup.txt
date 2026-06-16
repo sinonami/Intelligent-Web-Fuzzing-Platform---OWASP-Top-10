@@ -1,0 +1,10 @@
+Flask==3.0.0
+Werkzeug==3.0.1
+requests==2.31.0
+beautifulsoup4==4.12.2
+urllib3==2.0.7
+numpy
+scikit-learn
+tensorflow
+fpdf2
+joblib

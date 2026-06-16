@@ -1,0 +1,12 @@
+services:
+  web-scanner:
+    build: .
+    container_name: intelligent_fuzzer
+    ports:
+      - "0.0.0.0:5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - SECRET_KEY=super-secret-key-change-in-production
+    restart: always

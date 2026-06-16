@@ -1,0 +1,143 @@
+<!-- templates/owasp.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OWASP Top 10 — Intelligent Fuzzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { background: var(--pale); }
+        .owasp-wrap { max-width: 860px; margin: 0 auto; padding: 56px 24px 80px; }
+        h1 { font-family: 'Satoshi', sans-serif; font-size: 32px; font-weight: 700; color: var(--dark); letter-spacing: -.02em; margin-bottom: 8px; }
+        .lead { font-size: 16px; color: var(--mid); margin-bottom: 48px; line-height: 1.6; }
+        .owasp-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 14px; display: flex; gap: 20px; align-items: flex-start; transition: border-color .15s; }
+        .owasp-card:hover { border-color: var(--soft); }
+        .owasp-num { font-family: 'Satoshi', sans-serif; font-size: 11px; font-weight: 700; color: var(--soft); letter-spacing: .08em; min-width: 90px; padding-top: 3px; }
+        .owasp-body h3 { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+        .owasp-body p { font-size: 13px; color: var(--mid); line-height: 1.65; margin-bottom: 8px; }
+        .owasp-badge { display: inline-block; font-family: 'Satoshi', sans-serif; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 5px; background: var(--pale); color: var(--mid); border: 1px solid var(--soft); }
+        .covered { border-left: 3px solid #10b981; }
+        .partial { border-left: 3px solid #f97316; }
+    </style>
+</head>
+<body>
+<nav class="nav">
+    <a href="/" class="nav-brand">Intelligent Fuzzer</a>
+    <div class="nav-links">
+        <a href="/docs" class="nav-link">Docs</a>
+        <a href="/owasp" class="nav-link">OWASP Top 10</a>
+        <a href="/history" class="nav-link">History</a>
+    </div>
+    <div class="nav-right">
+        {% if user %}
+        <div class="nav-account" onclick="this.querySelector('.nav-dropdown').classList.toggle('open')">
+            <span>{{ user }}</span> <span>▾</span>
+            <div class="nav-dropdown">
+                <a href="/history">Scan history</a>
+                <a href="/logout">Sign out</a>
+            </div>
+        </div>
+        {% else %}
+        <a href="/login" class="btn-ghost">Sign in</a>
+        <a href="/register" class="btn-solid">Get started</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="owasp-wrap">
+    <h1>OWASP Top 10 — 2021</h1>
+    <p class="lead">The ten most critical web application security risks, and how Intelligent Fuzzer tests for each one.</p>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A01:2021</div>
+        <div class="owasp-body">
+            <h3>Broken Access Control</h3>
+            <p>Restrictions on authenticated users are not properly enforced. Attackers can access unauthorized functionality or data.</p>
+            <span class="owasp-badge">✓ Tested — admin path enumeration, sensitive file exposure</span>
+        </div>
+    </div>
+
+    <div class="owasp-card partial">
+        <div class="owasp-num">A02:2021</div>
+        <div class="owasp-body">
+            <h3>Cryptographic Failures</h3>
+            <p>Weak or missing cryptography exposes sensitive data. Includes cleartext transmission, weak algorithms, exposed keys.</p>
+            <span class="owasp-badge">~ Partial — private key exposure, MD5 pattern detection</span>
+        </div>
+    </div>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A03:2021</div>
+        <div class="owasp-body">
+            <h3>Injection</h3>
+            <p>SQL, XSS, and command injection via hostile data sent to interpreters. One of the most common and dangerous risks.</p>
+            <span class="owasp-badge">✓ Tested — SQLi (error + blind), XSS reflection, AI-classified</span>
+        </div>
+    </div>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A04:2021</div>
+        <div class="owasp-body">
+            <h3>Insecure Design</h3>
+            <p>Missing or ineffective security controls at the design level. Includes debug information leakage and error handling failures.</p>
+            <span class="owasp-badge">✓ Tested — stack trace and debug error disclosure detection</span>
+        </div>
+    </div>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A05:2021</div>
+        <div class="owasp-body">
+            <h3>Security Misconfiguration</h3>
+            <p>Misconfigured permissions, unnecessary features enabled, default accounts, verbose error messages.</p>
+            <span class="owasp-badge">✓ Tested — CORS, exposed configs, missing headers, open endpoints</span>
+        </div>
+    </div>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A06:2021</div>
+        <div class="owasp-body">
+            <h3>Vulnerable & Outdated Components</h3>
+            <p>Using components with known vulnerabilities. Version disclosure enables targeted attacks.</p>
+            <span class="owasp-badge">✓ Tested — Server banner, X-Powered-By version fingerprinting</span>
+        </div>
+    </div>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A07:2021</div>
+        <div class="owasp-body">
+            <h3>Identification & Auth Failures</h3>
+            <p>Broken authentication allows attackers to assume user identities. Includes weak sessions and missing MFA.</p>
+            <span class="owasp-badge">✓ Tested — cookie flags, rate-limit indicators, session analysis</span>
+        </div>
+    </div>
+
+    <div class="owasp-card partial">
+        <div class="owasp-num">A08:2021</div>
+        <div class="owasp-body">
+            <h3>Software & Data Integrity Failures</h3>
+            <p>Code and infrastructure that does not protect against integrity violations, including insecure deserialization.</p>
+            <span class="owasp-badge">~ Partial — cookie attribute validation</span>
+        </div>
+    </div>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A09:2021</div>
+        <div class="owasp-body">
+            <h3>Security Logging & Monitoring Failures</h3>
+            <p>Insufficient logging prevents detection of breaches. Missing security headers block CSP and HSTS enforcement.</p>
+            <span class="owasp-badge">✓ Tested — CSP, HSTS, X-Frame-Options header audit</span>
+        </div>
+    </div>
+
+    <div class="owasp-card covered">
+        <div class="owasp-num">A10:2021</div>
+        <div class="owasp-body">
+            <h3>Server-Side Request Forgery (SSRF)</h3>
+            <p>The server fetches a remote resource based on a user-supplied URL without validation.</p>
+            <span class="owasp-badge">✓ Tested — internal URL injection via redirect/url/path parameters</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1231 @@
+[
+    {
+        "date": "2026-03-27 14:38:53",
+        "target": "http://testphp.vulnweb.com",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 14:41:48",
+        "target": "http://testphp.vulnweb.com/search.php?test=query",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 14:42:44",
+        "target": "http://demo.testfire.net",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 14:46:27",
+        "target": "altoromutual.com",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 14:48:43",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 14:49:24",
+        "target": "https://juice-shop.herokuapp.com/",
+        "count": 10,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": ".env",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/.env"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": ".git/config",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/.git/config"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "robots.txt",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/robots.txt"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "phpinfo.php",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/phpinfo.php"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "config.php.bak",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/config.php.bak"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": ".htaccess",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/.htaccess"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/admin/"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "backup.zip",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/backup.zip"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "setup.php",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/setup.php"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:02:11",
+        "target": "https://juice-shop.herokuapp.com/",
+        "count": 3,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/admin/"
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "backup.zip",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: https://juice-shop.herokuapp.com/backup.zip"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:06:12",
+        "target": "https://juice-shop.herokuapp.com/",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:06:12",
+        "target": "https://juice-shop.herokuapp.com/",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:10:53",
+        "target": "https://juice-shop.herokuapp.com/#/login",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:36:59",
+        "target": "http://www.altoromutual.com/login.jsp",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:42:59",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:45:24",
+        "target": " http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at:  http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 15:59:57",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:19:20",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:20:58",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:24:33",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:30:37",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:33:37",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:34:22",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:36:44",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:39:06",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:42:33",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:42:54",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:45:13",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:46:24",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:49:25",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:49:49",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 16:52:30",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 17:03:44",
+        "target": "\thttps://juice-shop.herokuapp.com/",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 17:03:48",
+        "target": "https://juice-shop.herokuapp.com/",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 17:04:29",
+        "target": "https://juice-shop.herokuapp.com/",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 17:04:35",
+        "target": "https://juice-shop.herokuapp.com/#/login",
+        "count": 1,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 17:04:38",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Script reflection found in response from http://demo.testfire.net/search.jsp"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:04:22",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 1.03%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 99.89%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.83%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.63%. (AI Confirmed)"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:08:06",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 1.03%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 99.89%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.83%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.63%. (AI Confirmed)"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:14:17",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 1.03%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 99.89%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.83%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.63%. (AI Confirmed)"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:41:14",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 1.03%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 99.89%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.83%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.63%. (AI Confirmed)"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:45:07",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:56:48",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 1.03%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 99.89%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.83%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.63%. (AI Confirmed)"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:56:48",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 1.03%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 99.89%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.83%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.63%. (AI Confirmed)"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:56:49",
+        "target": "http://demo.testfire.net/login.jsp",
+        "count": 4,
+        "issues": [
+            {
+                "type": "XSS Vulnerability",
+                "payload": "' OR 1=1 --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 1.03%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "<script>alert('XSS_FOUND')</script>",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 99.89%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "admin' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.83%. (AI Confirmed)"
+            },
+            {
+                "type": "XSS Vulnerability",
+                "payload": "'; WAIT FOR DELAY '0:0:5' --",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "HIGH",
+                "details": "Payload reflected + AI Confidence: 0.63%. (AI Confirmed)"
+            }
+        ]
+    },
+    {
+        "date": "2026-03-27 18:57:16",
+        "target": "http://zero.webappsecurity.com/",
+        "count": 2,
+        "issues": [
+            {
+                "type": "Info",
+                "payload": "None",
+                "method": "SCAN",
+                "status_code": 200,
+                "severity": "LOW",
+                "details": "Scan finished. No direct injections detected in reachable forms."
+            },
+            {
+                "type": "Sensitive File Found",
+                "payload": "admin/",
+                "method": "GET",
+                "status_code": 200,
+                "severity": "MEDIUM",
+                "details": "Potential information leak! Sensitive file exposed at: http://zero.webappsecurity.com/admin/"
+            }
+        ]
+    }
+]

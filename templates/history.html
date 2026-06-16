@@ -1,0 +1,196 @@
+<!-- templates/history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan History — Intelligent Fuzzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { background: var(--pale); }
+
+        .history-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 64px;
+        }
+        .history-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .history-heading {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -.02em;
+        }
+        .btn-back-link {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mid);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background .15s, border-color .15s;
+        }
+        .btn-back-link:hover { background: var(--pale); border-color: var(--soft); color: var(--dark); }
+
+        .history-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .history-table { width: 100%; border-collapse: collapse; }
+        .history-table th {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 14px 22px;
+            text-align: left;
+            background: var(--pale);
+            border-bottom: 1px solid var(--border);
+        }
+        .history-table td {
+            padding: 16px 22px;
+            font-size: 13px;
+            color: var(--dark);
+            border-bottom: 1px solid var(--border);
+        }
+        .history-table tbody tr:last-child td { border-bottom: none; }
+        .history-table tbody tr:hover td { background: #f8fbfd; }
+
+        .td-date {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+        .td-url {
+            font-weight: 500;
+            word-break: break-all;
+            color: var(--dark);
+        }
+        .count-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--red-bg);
+            color: var(--red-text);
+            border: 1px solid var(--red-border);
+            font-family: 'Satoshi', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            min-width: 36px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--muted);
+        }
+        .empty-state p {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--mid);
+            margin-bottom: 6px;
+        }
+        .empty-state span { font-size: 13px; color: var(--muted); }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">Intelligent Fuzzer</a>
+    <div class="nav-links" id="navLinks">
+        <a href="/docs" class="nav-link">Docs</a>
+        <a href="/owasp" class="nav-link">OWASP Top 10</a>
+    </div>
+    <div class="nav-right">
+        <a href="/logout" class="btn-ghost">Sign out</a>
+    </div>
+    <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<div class="history-wrap">
+    <div class="history-topbar">
+        <div class="history-heading">Scan history</div>
+        <a href="/" class="btn-back-link">← New scan</a>
+        <a href="/export_history" class="btn-back-link">Export CSV</a>
+    </div>
+
+    <div class="history-card">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Target URL</th>
+                    <th style="text-align:center;">Issues found</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scan in scans %}
+                <tr>
+                    <td class="td-date">{{ scan.date }}</td>
+                    <td class="td-url">{{ scan.target }}</td>
+                    <td style="text-align:center;">
+                        <span class="count-pill">{{ scan.count }}</span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">
+                        <div class="empty-state">
+                            <p>No scans yet</p>
+                            <span>Run your first scan to see results here.</span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-top">
+        <div>
+            <div class="footer-brand">Intelligent Fuzzer</div>
+            <div class="footer-tagline">Automated web vulnerability scanning. OWASP Top 10 compliant, AI-powered verdicts.</div>
+        </div>
+        <div class="footer-cols">
+            <div class="footer-col">
+                <div class="footer-col-title">Product</div>
+                <a href="/">Scanner</a>
+                <a href="/history">History</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Resources</div>
+                <a href="/docs" class="nav-link">Docs</a>
+                <a href="/owasp" class="nav-link">OWASP Top 10</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span class="footer-copy">&copy; 2026 Fuzzer Framework. All rights reserved.</span>
+        <span class="footer-badge">OWASP TOP 10 COMPLIANT</span>
+    </div>
+</footer>
+
+</body>
+</html>

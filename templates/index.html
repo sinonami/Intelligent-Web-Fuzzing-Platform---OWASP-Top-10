@@ -1,0 +1,566 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Fuzzer — Vulnerability Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* ── HERO ── */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 88px 24px 72px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px; left: -120px;
+            width: 420px; height: 420px;
+            background: var(--pale);
+            border-radius: 50%;
+            opacity: .45;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px; right: -80px;
+            width: 340px; height: 340px;
+            background: var(--soft);
+            border-radius: 50%;
+            opacity: .15;
+            pointer-events: none;
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--pale);
+            border: 1px solid var(--soft);
+            border-radius: 100px;
+            padding: 5px 16px;
+            font-family: 'Satoshi', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--mid);
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: .01em;
+        }
+        .eyebrow-dot { width: 6px; height: 6px; background: var(--mid); border-radius: 50%; flex-shrink: 0; }
+        .hero h1 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 54px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -.03em;
+            line-height: 1.08;
+            max-width: 900px;
+            margin: 0 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 em { font-style: normal; color: var(--muted); }
+        .hero-sub {
+            font-size: 17px;
+            color: var(--mid);
+            max-width: 500px;
+            line-height: 1.65;
+            margin: 0 0 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tags */
+        .tags-row {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 36px;
+            position: relative;
+            z-index: 1;
+        }
+        .tag {
+            border-radius: 6px;
+            padding: 5px 11px;
+            font-family: 'Satoshi', sans-serif;
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: .01em;
+        }
+        .tag-red    { background: var(--red-bg);    color: var(--red-text);    border: 1px solid var(--red-border); }
+        .tag-orange { background: var(--orange-bg);  color: var(--orange-text); border: 1px solid var(--orange-border); }
+        .tag-blue   { background: var(--pale);       color: #1e3a5f;            border: 1px solid var(--soft); }
+
+        /* Search bar */
+
+    .search-outer {
+        display: flex;
+        align-items: center;
+        background: var(--pale);        /* ← СВЕТЛЫЙ */
+        border-radius: 14px;
+        padding: 6px 6px 6px 22px;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto 14px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 8px 32px rgba(41,53,60,.18);
+    }
+    .search-outer input {
+        flex: 1;
+        min-width: 0;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        font-family: 'Inter', sans-serif;
+        color: var(--dark);             /* ← ТЁМНЫЙ ТЕКСТ */
+        background: transparent;
+    }
+    .search-outer input::placeholder { color: var(--muted); }
+    .btn-scan {
+        background: var(--dark);        /* ← ТЁМНАЯ КНОПКА */
+        color: #ffffff;                 /* ← БЕЛЫЙ ТЕКСТ */
+        border: none;
+        border-radius: 9px;
+        padding: 12px 20px;
+        font-family: 'Satoshi', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        letter-spacing: -.01em;
+        transition: background .15s;
+    }
+.btn-scan:hover { background: var(--mid); }
+
+
+        .hint {
+            font-size: 12px;
+            color: var(--soft);
+            margin-bottom: 56px;
+            position: relative;
+            z-index: 1;
+        }
+        .hint b { color: var(--muted); font-weight: 500; }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            align-items: center;
+            gap: 44px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        .stat-n {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -.02em;
+        }
+        .stat-l { font-size: 12px; color: var(--soft); margin-top: 3px; }
+        .stat-div { width: 1px; height: 32px; background: var(--border); }
+
+        /* Loading / progress zone */
+        .progress-zone {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 60px 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .progress-zone.visible { display: flex; }
+        .progress-title {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        .progress-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; }
+        .segmented-bar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 640px;
+            gap: 8px;
+        }
+        .seg {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .seg-label {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: var(--border);
+            transition: color .3s;
+        }
+        .seg-bar {
+            width: 100%;
+            height: 5px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .seg-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--dark);
+            border-radius: 10px;
+            transition: width .5s ease;
+        }
+        .seg-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--border);
+            border-radius: 50%;
+            transition: background .3s;
+        }
+        .seg.active .seg-label { color: var(--dark); }
+        .seg.active .seg-bar-fill { width: 100%; }
+        .seg.active .seg-dot { background: var(--dark); }
+
+        /* Features section */
+        .features { background: var(--pale); padding: 72px 48px; }
+        .features-inner { max-width: 1040px; margin: 0 auto; }
+        .section-label {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .features h2 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -.025em;
+            margin-bottom: 36px;
+        }
+        .feat-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+        .feat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 22px;
+            transition: border-color .15s;
+        }
+        .feat-card:hover { border-color: var(--soft); }
+        .feat-num {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--soft);
+            margin-bottom: 12px;
+            letter-spacing: .07em;
+        }
+        .feat-title {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        .feat-desc { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+        /* ── ACCOUNT DROPDOWN ── */
+        .nav-account {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--pale);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 14px;
+            cursor: pointer;
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark);
+            user-select: none;
+            transition: background .15s, border-color .15s;
+        }
+        .nav-account:hover { background: #d4e4f0; border-color: var(--soft); }
+        .nav-chevron {
+            font-size: 10px;
+            color: var(--muted);
+            transition: transform .2s;
+        }
+        .nav-account.open .nav-chevron { transform: rotate(180deg); }
+        .nav-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            min-width: 170px;
+            box-shadow: 0 8px 24px rgba(41,53,60,.1);
+            overflow: hidden;
+            z-index: 200;
+        }
+        .nav-account.open .nav-dropdown { display: block; }
+        .nav-dropdown a {
+            display: block;
+            padding: 11px 16px;
+            font-size: 13px;
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 500;
+            color: var(--dark);
+            text-decoration: none;
+            transition: background .12s;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-dropdown a:last-child { border-bottom: none; }
+        .nav-dropdown a:hover { background: var(--pale); }
+        .nav-dropdown .dropdown-signout { color: #991b1b; }
+        .nav-dropdown .dropdown-signout:hover { background: #fef2f2; color: #991b1b; }
+        .nav-avatar {
+            width: 26px;
+            height: 26px;
+            background: var(--dark);
+            color: #fff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Satoshi', sans-serif;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 64px 20px 48px; }
+            .hero h1 { font-size: 36px; }
+            .hero-sub { font-size: 15px; }
+            .stats-row { gap: 20px; flex-wrap: wrap; }
+            .feat-cards { grid-template-columns: 1fr; }
+            .features { padding: 48px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">Intelligent Fuzzer</a>
+    <div class="nav-links" id="navLinks">
+        <a href="/docs" class="nav-link">Docs</a>
+        <a href="/owasp" class="nav-link">OWASP Top 10</a>
+        <a href="/history" class="nav-link">History</a>
+    </div>
+    <div class="nav-right">
+        {% if user %}
+            <div class="nav-account" id="navAccount" onclick="toggleAccount()">
+                <div class="nav-avatar">{{ user[0].upper() }}</div>
+                <span>{{ user }}</span>
+                <span class="nav-chevron">▾</span>
+                <div class="nav-dropdown">
+                    <a href="/history">Scan history</a>
+                    <a href="/docs">Docs</a>
+                    <a href="/logout" class="dropdown-signout">Sign out</a>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login" class="btn-ghost">Sign in</a>
+            <a href="/register" class="btn-solid">Get started</a>
+        {% endif %}
+    </div>
+    <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<main>
+    <!-- HERO / SCAN INPUT -->
+    <section class="hero" id="heroSection">
+        <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            OWASP Top 10 Compliant &nbsp;·&nbsp; AI-Powered Analysis
+        </div>
+        <h1>Find vulnerabilities<br><em>before attackers do</em></h1>
+        <p class="hero-sub">Paste a URL and get a full security scan in seconds. Automated fuzzing across injections, misconfigs, broken auth, and more.</p>
+
+        <div class="tags-row">
+            <span class="tag tag-red">SQL Injection</span>
+            <span class="tag tag-red">XSS</span>
+            <span class="tag tag-orange">Broken Auth</span>
+            <span class="tag tag-orange">SSRF</span>
+            <span class="tag tag-orange">Misconfig</span>
+            <span class="tag tag-blue">Headers</span>
+            <span class="tag tag-blue">SSL / TLS</span>
+        </div>
+
+        <form id="scanForm" method="POST" action="/scan" onsubmit="startScan(event)">
+            <div class="search-outer">
+                <input type="text" name="url" id="urlInput" placeholder="https://target-url.com" required autocomplete="on">
+                <button type="submit" class="btn-scan">Run scan</button>
+            </div>
+        </form>
+        <p class="hint">No installation required. &nbsp;<b>Results in under 60 seconds.</b></p>
+
+        <div class="stats-row">
+            <div class="stat"><div class="stat-n">10</div><div class="stat-l">OWASP categories</div></div>
+            <div class="stat-div"></div>
+            <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Attack vectors</div></div>
+            <div class="stat-div"></div>
+            <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Verdict per finding</div></div>
+            <div class="stat-div"></div>
+            <div class="stat"><div class="stat-n">PDF</div><div class="stat-l">Report export</div></div>
+        </div>
+    </section>
+
+    <!-- LOADING / PROGRESS -->
+    <section class="progress-zone" id="progressZone">
+        <p class="progress-title">Scanning target</p>
+        <p class="progress-sub" id="progressUrl"></p>
+        <div class="segmented-bar" id="segBar">
+            <div class="seg" id="seg1"><div class="seg-label">Crawling</div><div class="seg-bar"><div class="seg-bar-fill"></div></div><div class="seg-dot"></div></div>
+            <div class="seg" id="seg2"><div class="seg-label">Fuzzing</div><div class="seg-bar"><div class="seg-bar-fill"></div></div><div class="seg-dot"></div></div>
+            <div class="seg" id="seg3"><div class="seg-label">Injections</div><div class="seg-bar"><div class="seg-bar-fill"></div></div><div class="seg-dot"></div></div>
+            <div class="seg" id="seg4"><div class="seg-label">Auth</div><div class="seg-bar"><div class="seg-bar-fill"></div></div><div class="seg-dot"></div></div>
+            <div class="seg" id="seg5"><div class="seg-label">AI Analysis</div><div class="seg-bar"><div class="seg-bar-fill"></div></div><div class="seg-dot"></div></div>
+        </div>
+    </section>
+</main>
+
+<!-- FEATURES -->
+<section class="features">
+    <div class="features-inner">
+        <p class="section-label">What we test</p>
+        <h2>Full-spectrum coverage</h2>
+        <div class="feat-cards">
+            <div class="feat-card">
+                <div class="feat-num">A01 — A03</div>
+                <div class="feat-title">Injection & access control</div>
+                <div class="feat-desc">SQL injection, XSS, broken access control, and command injection tested across all HTTP methods.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-num">A04 — A06</div>
+                <div class="feat-title">Config & cryptography</div>
+                <div class="feat-desc">Security misconfigurations, insecure direct object references, and weak or outdated cryptographic functions.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-num">A07 — A10</div>
+                <div class="feat-title">Auth & integrity</div>
+                <div class="feat-desc">Broken authentication, SSRF, software integrity failures, and insufficient logging — fully automated.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-top">
+        <div>
+            <div class="footer-brand">Intelligent Fuzzer</div>
+            <div class="footer-tagline">Automated web vulnerability scanning. OWASP Top 10 compliant, AI-powered verdicts.</div>
+        </div>
+        <div class="footer-cols">
+            <div class="footer-col">
+                <div class="footer-col-title">Product</div>
+                <a href="/">Scanner</a>
+                <a href="/history">History</a>
+                <a href="/download_report">PDF Reports</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Resources</div>
+                <a href="/docs">Docs</a>
+                <a href="/owasp">OWASP Top 10</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Account</div>
+                <a href="/login">Sign in</a>
+                <a href="/register">Register</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span class="footer-copy">&copy; 2026 Fuzzer Framework. All rights reserved.</span>
+        <span class="footer-badge">OWASP TOP 10 COMPLIANT</span>
+    </div>
+</footer>
+
+<script>
+// ── Account dropdown ──────────────────────────────────────────────────────
+function toggleAccount() {
+    document.getElementById('navAccount')?.classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#navAccount')) {
+        document.getElementById('navAccount')?.classList.remove('open');
+    }
+});
+
+// ── Hamburger ─────────────────────────────────────────────────────────────
+document.querySelector('.nav-hamburger')?.addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+});
+
+// ── Scan with real-time progress ──────────────────────────────────────────
+async function startScan(e) {
+    e.preventDefault();
+    const url = document.getElementById('urlInput').value;
+    document.getElementById('heroSection').style.display = 'none';
+    const pz = document.getElementById('progressZone');
+    pz.classList.add('visible');
+    document.getElementById('progressUrl').textContent = url;
+
+    const segs = ['seg1','seg2','seg3','seg4','seg5'];
+    const formData = new FormData(document.getElementById('scanForm'));
+
+    // Fire real scan in background
+    const scanPromise = fetch('/scan', { method: 'POST', body: formData });
+
+    // Animate segments 1-4 every 3s while scan runs
+    let i = 0;
+    const ticker = setInterval(() => {
+        if (i < segs.length - 1) {
+            document.getElementById(segs[i]).classList.add('active');
+            i++;
+        }
+    }, 3000);
+
+    // Wait for real response
+    const response = await scanPromise;
+    clearInterval(ticker);
+
+    // Light up all remaining segments
+    segs.forEach(s => document.getElementById(s).classList.add('active'));
+
+    // Brief pause so user sees completed state
+    await new Promise(r => setTimeout(r, 600));
+
+    const html = await response.text();
+    document.open();
+    document.write(html);
+    document.close();
+}
+</script>
+
+</body>
+</html>

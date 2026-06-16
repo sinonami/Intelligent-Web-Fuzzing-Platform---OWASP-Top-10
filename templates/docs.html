@@ -1,0 +1,406 @@
+<!-- templates/docs.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs — Intelligent Fuzzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { background: var(--pale); }
+
+        .docs-hero {
+            background: var(--dark);
+            padding: 56px 48px 52px;
+            text-align: center;
+        }
+        .docs-hero h1 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -.025em;
+            margin-bottom: 10px;
+        }
+        .docs-hero p {
+            font-size: 15px;
+            color: var(--soft);
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .docs-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 0;
+            max-width: 1060px;
+            margin: 40px auto 80px;
+            padding: 0 24px;
+            align-items: start;
+        }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: sticky;
+            top: 76px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 0;
+            margin-right: 28px;
+        }
+        .sidebar-title {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 18px 10px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 9px 18px;
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--mid);
+            text-decoration: none;
+            transition: background .12s, color .12s;
+            border-left: 2px solid transparent;
+        }
+        .sidebar-link:hover { background: var(--pale); color: var(--dark); border-left-color: var(--soft); }
+        .sidebar-link.active { background: var(--pale); color: var(--dark); border-left-color: var(--dark); font-weight: 600; }
+
+        /* Content */
+        .docs-content { min-width: 0; }
+
+        .doc-section {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px 36px;
+            margin-bottom: 16px;
+            scroll-margin-top: 80px;
+        }
+        .doc-section-label {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--soft);
+            margin-bottom: 8px;
+        }
+        .doc-section h2 {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -.02em;
+            margin-bottom: 14px;
+        }
+        .doc-section p {
+            font-size: 14px;
+            color: var(--mid);
+            line-height: 1.75;
+            margin-bottom: 12px;
+        }
+        .doc-section p:last-child { margin-bottom: 0; }
+        .doc-section ul {
+            padding-left: 18px;
+            margin-bottom: 12px;
+        }
+        .doc-section li {
+            font-size: 14px;
+            color: var(--mid);
+            line-height: 1.75;
+            margin-bottom: 5px;
+        }
+        .doc-section li strong { color: var(--dark); font-weight: 600; }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: var(--pale);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-size: 12.5px;
+            color: var(--dark);
+        }
+
+        /* Step cards for quick start */
+        .steps { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+        .step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background: var(--dark);
+            color: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Satoshi', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .step-body strong {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            display: block;
+            margin-bottom: 3px;
+        }
+        .step-body span { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+        /* Model cards */
+        .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+        .model-card {
+            background: var(--pale);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 18px;
+        }
+        .model-card code { background: #fff; font-size: 11px; }
+        .model-card p { font-size: 12.5px; color: var(--mid); margin-top: 6px; margin-bottom: 0; }
+
+        /* Legal notice */
+        .legal-box {
+            background: #fef2f2;
+            border: 1px solid var(--red-border);
+            border-radius: 10px;
+            padding: 16px 18px;
+            font-size: 13.5px;
+            color: #7f1d1d;
+            line-height: 1.65;
+        }
+
+        @media (max-width: 768px) {
+            .docs-layout { grid-template-columns: 1fr; }
+            .docs-sidebar { position: static; margin-right: 0; margin-bottom: 20px; }
+            .docs-hero { padding: 40px 20px; }
+            .doc-section { padding: 24px 20px; }
+            .model-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">Intelligent Fuzzer</a>
+    <div class="nav-links" id="navLinks">
+        <a href="/docs" class="nav-link" style="color: var(--dark); font-weight:600;">Docs</a>
+        <a href="/owasp" class="nav-link">OWASP Top 10</a>
+        <a href="/history" class="nav-link">History</a>
+    </div>
+    <div class="nav-right">
+        {% if user %}
+            <div class="nav-account" id="navAccount" onclick="toggleAccount()">
+                <div class="nav-avatar">{{ user[0].upper() }}</div>
+                <span>{{ user }}</span>
+                <span class="nav-chevron">▾</span>
+                <div class="nav-dropdown">
+                    <a href="/history">Scan history</a>
+                    <a href="/docs">Docs</a>
+                    <a href="/logout" class="dropdown-signout">Sign out</a>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login" class="btn-ghost">Sign in</a>
+            <a href="/register" class="btn-solid">Get started</a>
+        {% endif %}
+    </div>
+    <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- Hero -->
+<div class="docs-hero">
+    <h1>Documentation</h1>
+    <p>Everything you need to use Intelligent Fuzzer — from your first scan to reading PDF reports.</p>
+</div>
+
+<div class="docs-layout">
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar">
+        <div class="sidebar-title">On this page</div>
+        <a href="#quickstart" class="sidebar-link active">Quick start</a>
+        <a href="#what-we-test" class="sidebar-link">What gets tested</a>
+        <a href="#ai" class="sidebar-link">AI classification</a>
+        <a href="#pdf" class="sidebar-link">PDF reports</a>
+        <a href="#history" class="sidebar-link">Scan history</a>
+        <a href="#legal" class="sidebar-link">Legal notice</a>
+    </aside>
+
+    <!-- Content -->
+    <div class="docs-content">
+
+        <div class="doc-section" id="quickstart">
+            <div class="doc-section-label">Getting started</div>
+            <h2>Quick start</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        <strong>Paste a target URL</strong>
+                        <span>Go to the home page and enter the full URL of the web application you want to test (e.g. <code>https://testphp.vulnweb.com</code>).</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        <strong>Click Run scan</strong>
+                        <span>The scanner starts immediately. A progress bar shows each phase — crawling, fuzzing, injections, auth checks, and AI analysis.</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-body">
+                        <strong>Review the dashboard</strong>
+                        <span>Results are mapped to OWASP Top 10. Click Details on any finding to see the payload, AI confidence score, and full verdict.</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-body">
+                        <strong>Export as PDF</strong>
+                        <span>Click Generate PDF to download a full report with all findings, payloads, and AI verdicts — ready to share.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-section" id="what-we-test">
+            <div class="doc-section-label">Coverage</div>
+            <h2>What gets tested</h2>
+            <ul>
+                <li><strong>SQL Injection (A03)</strong> — error-based, blind time-delay, UNION-based, boolean-based across all forms and URL parameters</li>
+                <li><strong>XSS (A03)</strong> — reflected payloads tested via forms and URL params, verified by AI model</li>
+                <li><strong>SSRF (A10)</strong> — internal URL injection via redirect, url, path, dest, and callback parameters</li>
+                <li><strong>Path Traversal (A01)</strong> — <code>../</code> sequences and encoded variants on file/path parameters</li>
+                <li><strong>Broken Access Control (A01)</strong> — exposed admin paths, sensitive file enumeration, 403/401 detection</li>
+                <li><strong>Security Misconfiguration (A05)</strong> — missing headers, wildcard CORS, open config endpoints</li>
+                <li><strong>Outdated Components (A06)</strong> — server version banners, X-Powered-By disclosure</li>
+                <li><strong>Auth Issues (A07)</strong> — insecure cookie flags, missing rate-limiting signals</li>
+                <li><strong>Logging Failures (A09)</strong> — absent CSP, HSTS, X-Frame-Options headers</li>
+            </ul>
+        </div>
+
+        <div class="doc-section" id="ai">
+            <div class="doc-section-label">Machine learning</div>
+            <h2>AI classification</h2>
+            <p>Every finding is passed through trained AI models before being reported. This reduces false positives and adds a confidence score to each result.</p>
+            <div class="model-grid">
+                <div class="model-card">
+                    <code>sqli_hybrid_model.h5</code>
+                    <p>TensorFlow/Keras hybrid model trained on SQL injection payloads. Detects error-based and blind injection patterns.</p>
+                </div>
+                <div class="model-card">
+                    <code>xss_hybrid_model.h5</code>
+                    <p>TensorFlow/Keras model for XSS payload classification. Verifies reflection and DOM injection signatures.</p>
+                </div>
+                <div class="model-card">
+                    <code>sensitive_mlp_model.pkl</code>
+                    <p>MLP classifier for auth and configuration anomalies — cookie issues, missing controls, design flaws.</p>
+                </div>
+                <div class="model-card">
+                    <code>anomaly_config_detector.pkl</code>
+                    <p>Isolation Forest model for traffic and response anomaly detection during the crawl phase.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-section" id="pdf">
+            <div class="doc-section-label">Reports</div>
+            <h2>PDF reports</h2>
+            <p>After any scan completes, click <strong>Generate PDF</strong> on the results dashboard. The report includes:</p>
+            <ul>
+                <li>Target URL and scan timestamp</li>
+                <li>Every finding with type, severity, and OWASP category</li>
+                <li>The exact payload that triggered each finding</li>
+                <li>Full AI verdict and confidence score</li>
+            </ul>
+            <p>Reports are generated server-side and downloaded as a <code>.pdf</code> file named after the target domain.</p>
+        </div>
+
+        <div class="doc-section" id="history">
+            <div class="doc-section-label">Account</div>
+            <h2>Scan history</h2>
+            <p>All scans run while logged in are saved automatically. Visit <a href="/history" style="color: var(--dark); font-weight:600; text-decoration:underline;">History</a> to see past scans with their date, target URL, and issue count.</p>
+            <p>You must be registered and signed in for scans to be saved. Anonymous scans are not stored.</p>
+        </div>
+
+        <div class="doc-section" id="legal">
+            <div class="doc-section-label">Important</div>
+            <h2>Legal notice</h2>
+            <div class="legal-box">
+                Only scan systems you own or have explicit written permission to test. Running this scanner against systems without authorization is illegal under computer crime laws in most countries, regardless of intent. The authors accept no liability for misuse.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-top">
+        <div>
+            <div class="footer-brand">Intelligent Fuzzer</div>
+            <div class="footer-tagline">Automated web vulnerability scanning. OWASP Top 10 compliant, AI-powered verdicts.</div>
+        </div>
+        <div class="footer-cols">
+            <div class="footer-col">
+                <div class="footer-col-title">Product</div>
+                <a href="/">Scanner</a>
+                <a href="/history">History</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Resources</div>
+                <a href="/docs">Docs</a>
+                <a href="/owasp">OWASP Top 10</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span class="footer-copy">&copy; 2026 Fuzzer Framework. All rights reserved.</span>
+        <span class="footer-badge">OWASP TOP 10 COMPLIANT</span>
+    </div>
+</footer>
+
+<script>
+function toggleAccount() {
+    document.getElementById('navAccount')?.classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#navAccount')) {
+        document.getElementById('navAccount')?.classList.remove('open');
+    }
+});
+
+// Highlight active sidebar link on scroll
+const sections = document.querySelectorAll('.doc-section');
+const links = document.querySelectorAll('.sidebar-link');
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    links.forEach(l => {
+        l.classList.remove('active');
+        if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+    });
+});
+</script>
+
+</body>
+</html>

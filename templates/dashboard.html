@@ -1,0 +1,526 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results — Intelligent Fuzzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background: var(--pale); }
+
+        .dash-wrap { max-width: 1060px; margin: 0 auto; padding: 36px 24px 64px; }
+
+        /* Top bar */
+        .dash-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .dash-heading {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -.02em;
+            margin-bottom: 6px;
+        }
+        .dash-target {
+            display: inline-block;
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mid);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 5px 14px;
+        }
+        .dash-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-back {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mid);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 18px;
+            text-decoration: none;
+            transition: background .15s, border-color .15s;
+        }
+        .btn-back:hover { background: var(--pale); border-color: var(--soft); color: var(--dark); }
+        .btn-pdf {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--white);
+            background: var(--dark);
+            border: 1px solid var(--dark);
+            border-radius: 8px;
+            padding: 9px 18px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+        .btn-pdf:hover { background: var(--mid); }
+
+        /* Stat cards */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 3px solid transparent;
+            border-radius: 10px;
+            padding: 20px 18px;
+        }
+        .sc-total    { border-top-color: var(--dark); }
+        .sc-critical { border-top-color: #1e293b; }
+        .sc-high     { border-top-color: #dc2626; }
+        .sc-medium   { border-top-color: #f97316; }
+        .sc-low      { border-top-color: #10b981; }
+
+        .sc-label {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+        .sc-num {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -.03em;
+        }
+        .sc-total .sc-num    { color: var(--dark); }
+        .sc-critical .sc-num { color: #1e293b; }
+        .sc-high .sc-num     { color: #dc2626; }
+        .sc-medium .sc-num   { color: #f97316; }
+        .sc-low .sc-num      { color: #10b981; }
+
+        /* Mid grid */
+        .mid-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+        .dash-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .dash-card-title {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        /* Chart */
+        .chart-inner {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .chart-inner canvas { max-height: 200px; max-width: 200px; }
+        .legend { display: flex; flex-direction: column; gap: 10px; }
+        .legend-row { display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--mid); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+        /* OWASP badges */
+        .owasp-grid { display: flex; flex-wrap: wrap; gap: 7px; }
+        .owasp-badge {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 11px;
+            border-radius: 6px;
+            background: var(--pale);
+            color: var(--mid);
+            border: 1px solid var(--soft);
+        }
+
+        /* Findings table */
+        .findings-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .findings-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+        .findings-title {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        .findings-table { width: 100%; border-collapse: collapse; }
+        .findings-table th {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 13px 20px;
+            text-align: left;
+            background: var(--pale);
+            border-bottom: 1px solid var(--border);
+        }
+        .findings-table td {
+            padding: 14px 20px;
+            font-size: 13px;
+            color: var(--dark);
+            border-bottom: 1px solid var(--border);
+        }
+        .findings-table tbody tr:last-child td { border-bottom: none; }
+        .findings-table tbody tr:hover td { background: #f8fbfd; }
+        .method-tag {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--pale);
+            color: var(--mid);
+            border-radius: 5px;
+            padding: 3px 9px;
+        }
+        .btn-detail {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--mid);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 5px 13px;
+            cursor: pointer;
+            transition: background .15s, border-color .15s, color .15s;
+        }
+        .btn-detail:hover { background: var(--pale); border-color: var(--soft); color: var(--dark); }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(41,53,60,.4);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--white);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 560px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(41,53,60,.2);
+        }
+        .modal-head {
+            background: var(--dark);
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-head-title {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--white);
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 18px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close:hover { color: var(--white); }
+        .modal-body { padding: 28px 24px; background: var(--pale); }
+        .modal-section-label {
+            font-family: 'Satoshi', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .modal-verdict {
+            background: var(--white);
+            border-left: 3px solid var(--dark);
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 14px;
+            color: var(--dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .modal-payload {
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+        .modal-payload code {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--soft);
+            word-break: break-all;
+        }
+
+        @media (max-width: 900px) {
+            .stat-grid { grid-template-columns: repeat(3, 1fr); }
+            .mid-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .dash-topbar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-brand">Intelligent Fuzzer</a>
+    <div class="nav-links" id="navLinks">
+        <a href="/history" class="nav-link">History</a>
+        <a href="/docs" class="nav-link">Docs</a>
+        <a href="/owasp" class="nav-link">OWASP Top 10</a>
+    </div>
+    <div class="nav-right">
+        <a href="/" class="nav-link">New scan</a>
+        <a href="/logout" class="btn-ghost">Sign out</a>
+    </div>
+    <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+{% set critical_count = results|selectattr("severity","equalto","CRITICAL")|list|length %}
+{% set high_count     = results|selectattr("severity","equalto","HIGH")|list|length %}
+{% set medium_count   = results|selectattr("severity","equalto","MEDIUM")|list|length %}
+{% set low_count      = results|selectattr("severity","equalto","LOW")|list|length %}
+{% set info_count     = results|selectattr("severity","equalto","INFO")|list|length %}
+{% set total_count    = results|length %}
+
+<div class="dash-wrap">
+
+    <!-- Top bar -->
+    <div class="dash-topbar">
+        <div>
+            <div class="dash-heading">Scan results</div>
+            <span class="dash-target">{{ target_url }}</span>
+        </div>
+        <div class="dash-actions">
+            <a href="/" class="btn-back">← New scan</a>
+            <form action="/download_report" method="POST" style="margin:0;">
+                <input type="hidden" name="target" value="{{ target_url }}">
+                <input type="hidden" name="results" value='{{ results | tojson }}'>
+                <button type="submit" class="btn-pdf">Generate PDF</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="stat-grid">
+        <div class="stat-card sc-total">
+            <div class="sc-label">Total issues</div>
+            <div class="sc-num">{{ total_count }}</div>
+        </div>
+        <div class="stat-card sc-critical">
+            <div class="sc-label">Critical</div>
+            <div class="sc-num">{{ critical_count }}</div>
+        </div>
+        <div class="stat-card sc-high">
+            <div class="sc-label">High</div>
+            <div class="sc-num">{{ high_count }}</div>
+        </div>
+        <div class="stat-card sc-medium">
+            <div class="sc-label">Medium</div>
+            <div class="sc-num">{{ medium_count }}</div>
+        </div>
+        <div class="stat-card sc-low">
+            <div class="sc-label">Low / Info</div>
+            <div class="sc-num">{{ low_count + info_count }}</div>
+        </div>
+    </div>
+
+    <!-- Mid grid: chart + OWASP -->
+    <div class="mid-grid">
+        <div class="dash-card">
+            <div class="dash-card-title">Risk distribution</div>
+            <div class="chart-inner">
+                <canvas id="riskChart"></canvas>
+                <div class="legend">
+                    <div class="legend-row"><span class="legend-dot" style="background:#1e293b;"></span>Critical ({{ critical_count }})</div>
+                    <div class="legend-row"><span class="legend-dot" style="background:#dc2626;"></span>High ({{ high_count }})</div>
+                    <div class="legend-row"><span class="legend-dot" style="background:#f97316;"></span>Medium ({{ medium_count }})</div>
+                    <div class="legend-row"><span class="legend-dot" style="background:#10b981;"></span>Low / Info ({{ low_count + info_count }})</div>
+                </div>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-card-title">OWASP Top 10 coverage</div>
+            <div class="owasp-grid">
+                <span class="owasp-badge">A01 Broken Access</span>
+                <span class="owasp-badge">A02 Misconfig</span>
+                <span class="owasp-badge">A03 Supply Chain</span>
+                <span class="owasp-badge">A04 Crypto</span>
+                <span class="owasp-badge">A05 Injection</span>
+                <span class="owasp-badge">A06 Design</span>
+                <span class="owasp-badge">A07 Auth</span>
+                <span class="owasp-badge">A08 Integrity</span>
+                <span class="owasp-badge">A09 Logging</span>
+                <span class="owasp-badge">A10 SSRF</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Findings table -->
+    <div class="findings-card">
+        <div class="findings-header">
+            <div class="findings-title">Detailed findings</div>
+        </div>
+        <table class="findings-table">
+            <thead>
+                <tr>
+                    <th>Vulnerability</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Risk</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bug in results %}
+                <tr>
+                    <td><strong>{{ bug.type }}</strong></td>
+                    <td><span class="method-tag">{{ bug.method }}</span></td>
+                    <td style="color: var(--muted);">{{ bug.status_code }}</td>
+                    <td><span class="sev sev-{{ bug.severity }}">{{ bug.severity }}</span></td>
+                    <td>
+                        <button class="btn-detail"
+                                data-title="{{ bug.type }}"
+                                data-details="{{ bug.details }}"
+                                data-payload="{{ bug.payload }}"
+                                onclick="openModal(this)">Details</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not results %}
+        <div style="text-align:center; padding:60px; color:var(--muted);">
+            <p style="font-family:'Satoshi',sans-serif; font-size:18px; font-weight:700; color:var(--dark); margin-bottom:8px;">No vulnerabilities detected</p>
+            <span style="font-size:14px;">The target passed all automated checks.</span>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- Detail modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal-box">
+        <div class="modal-head">
+            <span class="modal-head-title" id="modalTitle">Vulnerability Details</span>
+            <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-section-label">AI Analysis Verdict</div>
+            <div class="modal-verdict" id="modalDetails"></div>
+            <div class="modal-section-label">Detected Payload</div>
+            <div class="modal-payload">
+                <code id="modalPayload"></code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-top">
+        <div>
+            <div class="footer-brand">Intelligent Fuzzer</div>
+            <div class="footer-tagline">Automated web vulnerability scanning. OWASP Top 10 compliant, AI-powered verdicts.</div>
+        </div>
+        <div class="footer-cols">
+            <div class="footer-col">
+                <div class="footer-col-title">Product</div>
+                <a href="/">Scanner</a>
+                <a href="/history">History</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Resources</div>
+                <a href="#">Docs</a>
+                <a href="#">OWASP Top 10</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span class="footer-copy">&copy; 2026 Fuzzer Framework. All rights reserved.</span>
+        <span class="footer-badge">OWASP TOP 10 COMPLIANT</span>
+    </div>
+</footer>
+
+<script>
+    // Donut chart
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW/INFO'],
+            datasets: [{
+                data: [{{ critical_count }}, {{ high_count }}, {{ medium_count }}, {{ low_count + info_count }}],
+                backgroundColor: ['#1e293b', '#dc2626', '#f97316', '#10b981'],
+                borderWidth: 0,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            cutout: '68%',
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // Modal
+    function openModal(btn) {
+        document.getElementById('modalTitle').textContent   = btn.getAttribute('data-title');
+        document.getElementById('modalDetails').textContent = btn.getAttribute('data-details');
+        document.getElementById('modalPayload').textContent = btn.getAttribute('data-payload');
+        document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('open');
+    }
+    function closeModalOutside(e) {
+        if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
