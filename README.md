@@ -119,7 +119,6 @@ models/
 └── anomaly_config_detector.pkl
 ```
 
-📎 **[Download models — Google Drive](#)** ← paste your link here
 
 ---
 
